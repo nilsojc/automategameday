@@ -59,7 +59,7 @@ data "aws_caller_identity" "current" {}
 # IAM Policy to Read From Parameter Store
 resource "aws_iam_policy" "ssm_policy" {
   name        = "ssm_parameter_access"
-  description = "Allow Lambda to read NBA API Key from Parameter Store"
+  description = "Allow Lambda to read La Liga API Key from Parameter Store"
 
   policy = <<EOF
 {
@@ -68,7 +68,7 @@ resource "aws_iam_policy" "ssm_policy" {
     {
       "Effect": "Allow",
       "Action": "ssm:GetParameter",
-      "Resource": "arn:aws:ssm:us-east-1:${data.aws_caller_identity.current.account_id}:parameter/nba-api-key"
+      "Resource": "arn:aws:ssm:us-east-1:${data.aws_caller_identity.current.account_id}:parameter/esp-api-key"
     }
   ]
 }
@@ -116,7 +116,7 @@ resource "aws_lambda_function" "esp_lambda" {
   filename      = "gd_notifications.zip" # Pre-packaged ZIP
   function_name = "esp_game_alerts"
   role          = aws_iam_role.lambda_role.arn
-  handler       = "nba_notifications.lambda_handler"
+  handler       = "gd_notifications.lambda_handler"
   runtime       = "python3.8"
 
   environment {

@@ -6,7 +6,7 @@
 
 This is the 8th project for the 30 days DevOps All Star Challenge!
 
-In this project I 
+In this project I built a Sports Alert system that is automated with Terraform which will alow the creation of the fetching the API key, creating the lambda function of our app, and setting up the alerts with Cloudwatch and SNS topics!
 
 
 <h2>Environments and Technologies Used</h2>
@@ -16,16 +16,18 @@ In this project I
   - Terraform
   - Python
   - Gitpod
+  - Lambda
+  - Cloudwatch
   
-
-
 
   
 <h2>Key Features</h2>  
 
-✅ 
-✅ 
-✅ 
+✅ Infrastructure as Code (IaC) with Terraform: Automate AWS resource provisioning (Lambda, CloudWatch, SNS) using Terraform for reproducibility, scalability, and version-controlled infrastructure
+
+✅ Sports API Integration: Securely fetch and manage API keys (e.g., AWS Secrets Manager) to retrieve real-time sports data (scores, schedules, or alerts) from third-party providers.
+
+✅ Serverless Data Processing: AWS Lambda functions written in Python/Node.js to process and filter sports data on a scheduled or event-driven basis (e.g., hourly game updates).
 
 <h2>Step by Step Instructions</h2>
 
@@ -37,7 +39,6 @@ I created a .yml script for gitpod where it will automatically install AWS CLI a
 
 To achieve this, we will go to Gitpod's settings and set our credentials with the variables `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` Respectively.
 
-![image](/assets/image1.png)
 
 Finally, we will make sure our dependencies are installed properly.
 
@@ -46,6 +47,14 @@ pip install boto3
 pip install python-dotenv
 pip install requests
 ```
+
+We will then install terraform CLI:
+
+```
+sudo wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+
 
 ***Option 2: Local AWS CLI Setup***
 
@@ -62,19 +71,11 @@ We then do `AWS configure` and enter our access and secret key along with the re
 aws sts get-caller-identity
 ```
 
-We will then install terraform CLI:
-
-```
-sudo wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install terraform
-```
-
 
 Lastly, we will make sure we store our api key safely:
 
 ```
-aws ssm put-parameter --name "nba-api-key" --value "<API_KEY>" --type "SecureString"
+aws ssm put-parameter --name "esp-api-key" --value "<API_KEY>" --type "SecureString"
 ```
 
 ***2.  Run Terraform Commands ***
@@ -186,4 +187,4 @@ aws lambda update-function-
 
 <h2>Conclusion</h2>
 
-
+This project combines infrastructure automation with event-driven serverless architecture, demonstrating modern DevOps practices for building reliable, low-maintenance alert systems. Ideal for sports enthusiasts or as a template for scalable notification workflows!
