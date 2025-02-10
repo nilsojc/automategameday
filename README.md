@@ -84,37 +84,37 @@ In this step we will be configurating and setting up the terraform commands to a
 
 We first begin by initializing Terraform with the provider plugins (AWS) and local backend setup.
 
-```
+```bash
 terraform init
 ```
 
 Then we format Terraform config files to make it clean, readable  and following best practices.
 
-```
+```bash
 terraform fmt 
 ```
 
 Next, we check the terraform configuration for syntax errors and correctness.
 
-```
+```bash
 terraform validate
 ```
 
 We then show a preview of changes that will take place with Terraform infrastructure before being applied.
 
-```
+```bash
 terraform plan
 ```
 
 Finally, we create or update the infrastructure based on the Terraform configuration:
 
-```
+```bash
 terraform apply
 ```
 
 NOTE: When done, you can remove all services defined with 
 
-```
+```bash
 terraform destroy
 ```
 
@@ -131,6 +131,7 @@ aws sns subscribe \
     --protocol email \
     --notification-endpoint youremail.com
 ```
+
 
 ```
 aws sns subscribe \
