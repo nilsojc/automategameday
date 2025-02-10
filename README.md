@@ -2,7 +2,7 @@
   <img src="assets/diagram.png" 
 </p>
   
-## ☁️ 30 Days DevOps Challenge -   ☁️
+## ☁️ 30 Days DevOps Challenge - Building a Game Day Notification System with Terraform  ☁️
 
 This is the 8th project for the 30 days DevOps All Star Challenge!
 
@@ -180,7 +180,7 @@ NOTE: If there are no matches in a current date, for example, it can get no data
 NOTE2: When there are a lot of dates involved, we might need to adjust the timeout so that the SNS i published with this command:
 
 ```
-aws lambda update-function-
+aws lambda update-function-configuration --function-name gd_notifications --timeout 30
 ```
 
 
