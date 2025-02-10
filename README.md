@@ -4,7 +4,7 @@
   
 ## ☁️ 30 Days DevOps Challenge -   ☁️
 
-This is part of the final project of the Multicloud, Devops and AI Challenge!
+This is the 8th project for the 30 days DevOps All Star Challenge!
 
 In this project I 
 
@@ -156,8 +156,6 @@ aws iam attach-role-policy \
 ```
 
 
-
-
 ***4. Final Result - Test the Function**
 
 
@@ -191,4 +189,4 @@ aws lambda update-function-
 
 <h2>Conclusion</h2>
 
-The successful completion of these integrations and deployments established CloudMart as a production-ready platform with robust analytics capabilities and scalable infrastructure.
+
