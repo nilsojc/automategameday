@@ -54,13 +54,13 @@ We will then install terraform CLI:
 sudo wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 sudo apt update && sudo apt install terraform
-
+```
 
 ***Option 2: Local AWS CLI Setup***
 
 NOTE: Keep in mind this is for a Linux environment, check the AWS documentation to install it in your supported Os.
 
-   ```
+```
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
@@ -84,7 +84,7 @@ In this step we will be configurating and setting up the terraform commands to a
 
 We first begin by initializing Terraform with the provider plugins (AWS) and local backend setup.
 
-```
+```bash
 terraform init
 ```
 
