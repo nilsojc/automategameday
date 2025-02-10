@@ -12,7 +12,7 @@ In this project I built a Sports Alert system that is automated with Terraform w
 <h2>Environments and Technologies Used</h2>
 
   - Amazon Web Services (AWS)
-  - RapidAPI
+  - SportsAPI
   - Terraform
   - Python
   - Gitpod
