@@ -13,6 +13,10 @@ In this project I
 
   - Amazon Web Services (AWS)
   - RapidAPI
+  - Terraform
+  - Python
+  - Gitpod
+  
 
 
 
@@ -58,27 +62,131 @@ We then do `AWS configure` and enter our access and secret key along with the re
 aws sts get-caller-identity
 ```
 
-And finally, we will also be installing `gettext` which is a command-line utility is used for environment variable substituition in shell scripts and text files.
+We will then install terraform CLI:
 
 ```
-sudo apt-get update 
-sudo apt-get install gettext
+sudo wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
 ```
 
-***2.  Configuring and Creating .env file***
 
-In this step we will be configurating and setting up the .env file that we will be using for this project. 
+Lastly, we will make sure we store our api key safely:
+
+```
+aws ssm put-parameter --name "nba-api-key" --value "<API_KEY>" --type "SecureString"
+```
+
+***2.  Run Terraform Commands ***
+
+In this step we will be configurating and setting up the terraform commands to automate and create our resources! 
 
 
-***3. Generate JSON files with Templates***
+***3. Create SNS Topic and create a JSON policy***
+
+Next, we will be creating the SNS topic along with creating the subscription for the topic and the JSON policy for publish!
+
+```
+aws sns create-topic --name gd_topic
+```
+
+It will display the ARN of the topic.
+
+![image](/assets/image3.png)
+
+Then, we will create a subscription with an Email and SMS protocol. Replace arn with user-generated topic arn as well as the email to be subscribed to and phone number.
+
+```
+aws sns subscribe \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:gd_topic \
+    --protocol email \
+    --notification-endpoint youremail.com
+```
+
+```
+aws sns subscribe \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:gd_topic \
+    --protocol sms \
+    --notification-endpoint yourphonenumber
+```
+You can check the subscriptions on the CLI(Replace the topic ARN) or in the console.
+
+```
+aws sns list-subscriptions-by-topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:gd_topic
+
+```
+
+![image](/assets/image4.png)
+
+
+This is how it will look like in the console.
+
+![image](/assets/image5.png)
+
+Next, we will create the sns publish policy.
+
+```
+aws iam create-policy \
+    --policy-name gd_sns_policy \
+    --policy-document '{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "sns:Publish",
+                "Resource": "arn:aws:sns:us-east-1:123456789012:gd_topic"
+            }
+        ]
+    }'
+```
+
+We can check if it was created successfully.
+
+```
+aws iam list-policies --query "Policies[?PolicyName=='gd_sns_policy']"
+```
+
+Finally, we will attach permissions to the SNS policy. "myrole" will be exchanged by the role created and we will set the policy arn of the previously created gd_sns_policy.
+
+```
+aws iam attach-role-policy \
+    --role-name myrole \
+    --policy-arn arn:aws:iam::123456789012:policy/gd_sns_policy
+```
 
 
 
-***4. Build and Push Docker Image***
+
+***4. Final Result - Test the Function**
 
 
+We open the function and copy-paste the code from the repository (or you can fine-tune to your liking and modify)
 
-***5. Create AWS Resources, Setting up EventBridge and Testing ECS Task - Final Result***
+![image](/assets/image7.png)
+
+Before we deploy the function though, we set the environment variables.
+
+![image](/assets/image7.png)
+
+Finally, we test the result by creating a test event and testing it out.
+
+![image](/assets/image9.png)
+![image](/assets/image10.png)
+
+And Voila! We now have the data with the names of the team, the score, and even the formations!
+
+![image](/assets/image11.png)
+
+NOTE: If there are no matches in a current date, for example, it can get no data therefore showing notifications like these:
+
+![image](/assets/image12.png)
+
+NOTE2: When there are a lot of dates involved, we might need to adjust the timeout so that the SNS i published with this command:
+
+```
+aws lambda update-function-
+
 
 
 <h2>Conclusion</h2>
