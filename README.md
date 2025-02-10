@@ -78,7 +78,7 @@ Lastly, we will make sure we store our api key safely:
 aws ssm put-parameter --name "esp-api-key" --value "<API_KEY>" --type "SecureString"
 ```
 
-***2.  Run Terraform Commands ***
+***2.  Run Terraform Commands***
 
 In this step we will be configurating and setting up the terraform commands to automate and create our resources! 
 
