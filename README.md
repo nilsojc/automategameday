@@ -84,7 +84,7 @@ In this step we will be configurating and setting up the terraform commands to a
 
 We first begin by initializing Terraform with the provider plugins (AWS) and local backend setup.
 
-```bash
+```
 terraform init
 ```
 
