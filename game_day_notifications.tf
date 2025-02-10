@@ -40,7 +40,7 @@ resource "aws_iam_policy" "sns_publish_policy" {
     {
       "Effect": "Allow",
       "Action": "sns:Publish",
-      "Resource": "${aws_sns_topic.nba_game_alerts.arn}"
+      "Resource": "${aws_sns_topic.esp_game_alerts.arn}"
     }
   ]
 }
@@ -121,7 +121,7 @@ resource "aws_lambda_function" "esp_lambda" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN = aws_sns_topic.nba_game_alerts.arn
+      SNS_TOPIC_ARN = aws_sns_topic.esp_game_alerts.arn
     }
   }
 }
@@ -134,7 +134,7 @@ resource "aws_cloudwatch_event_rule" "esp_schedule" {
 
 # EventBridge Target
 resource "aws_cloudwatch_event_target" "esp_target" {
-  rule      = aws_cloudwatch_event_rule.nba_schedule.name
+  rule      = aws_cloudwatch_event_rule.esp_schedule.name
   target_id = "esp_lambda"
   arn       = aws_lambda_function.esp_lambda.arn
 }

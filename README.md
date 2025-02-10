@@ -81,24 +81,52 @@ aws ssm put-parameter --name "nba-api-key" --value "<API_KEY>" --type "SecureStr
 
 In this step we will be configurating and setting up the terraform commands to automate and create our resources! 
 
+We first begin by initializing Terraform with the provider plugins (AWS) and local backend setup.
+
+```
+terraform init
+```
+
+Then we format Terraform config files to make it clean, readable  and following best practices.
+
+```
+terraform fmt 
+```
+
+Next, we check the terraform configuration for syntax errors and correctness.
+
+```
+terraform validate
+```
+
+We then show a preview of changes that will take place with Terraform infrastructure before being applied.
+
+```
+terraform plan
+```
+
+Finally, we create or update the infrastructure based on the Terraform configuration:
+
+```
+terraform apply
+```
+
+NOTE: When done, you can remove all services defined with 
+
+```
+terraform destroy
+```
+
+
 
 ***3. Create SNS Topic and create a JSON policy***
 
-Next, we will be creating the SNS topic along with creating the subscription for the topic and the JSON policy for publish!
 
-```
-aws sns create-topic --name gd_topic
-```
-
-It will display the ARN of the topic.
-
-![image](/assets/image3.png)
-
-Then, we will create a subscription with an Email and SMS protocol. Replace arn with user-generated topic arn as well as the email to be subscribed to and phone number.
+In this step,  we will create a subscription with an Email and SMS protocol. Replace arn with user-generated topic arn as well as the email to be subscribed to and phone number.
 
 ```
 aws sns subscribe \
-    --topic-arn arn:aws:sns:us-east-1:123456789012:gd_topic \
+    --topic-arn arn:aws:sns:us-east-1:123456789012:esp_game_alerts \
     --protocol email \
     --notification-endpoint youremail.com
 ```
@@ -114,7 +142,6 @@ You can check the subscriptions on the CLI(Replace the topic ARN) or in the cons
 ```
 aws sns list-subscriptions-by-topic \
     --topic-arn arn:aws:sns:us-east-1:123456789012:gd_topic
-
 ```
 
 ![image](/assets/image4.png)
@@ -123,37 +150,6 @@ aws sns list-subscriptions-by-topic \
 This is how it will look like in the console.
 
 ![image](/assets/image5.png)
-
-Next, we will create the sns publish policy.
-
-```
-aws iam create-policy \
-    --policy-name gd_sns_policy \
-    --policy-document '{
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "sns:Publish",
-                "Resource": "arn:aws:sns:us-east-1:123456789012:gd_topic"
-            }
-        ]
-    }'
-```
-
-We can check if it was created successfully.
-
-```
-aws iam list-policies --query "Policies[?PolicyName=='gd_sns_policy']"
-```
-
-Finally, we will attach permissions to the SNS policy. "myrole" will be exchanged by the role created and we will set the policy arn of the previously created gd_sns_policy.
-
-```
-aws iam attach-role-policy \
-    --role-name myrole \
-    --policy-arn arn:aws:iam::123456789012:policy/gd_sns_policy
-```
 
 
 ***4. Final Result - Test the Function**
@@ -184,6 +180,7 @@ NOTE2: When there are a lot of dates involved, we might need to adjust the timeo
 
 ```
 aws lambda update-function-
+```
 
 
 
